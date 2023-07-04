@@ -50,12 +50,12 @@
                  People tends to have a lower life expectance in poor countries, and on the contrary the people that
                 live in wealthy countries tend to have a higher life expectancy.</p>
         </div>
-                <h3>Year</h3>
-                <div class="row align-items-center">
-                    <div class="col-sm-2"><p id="value-time"></p></div>
-                    <div class="col-sm">
-                        <div id="slider-time"></div>
-                    </div>
+                <h3>Year 2018</h3>
+//                <div class="row align-items-center">
+//                    <div class="col-sm-2"><p id="value-time"></p></div>
+ //                   <div class="col-sm">
+//                        <div id="slider-time"></div>
+//                    </div>
                 </div>
         <div id="legend-group" class="col-sm-3">
             <div class="legendTitle" style="font-size: 12px;">REGION</div>
@@ -79,8 +79,8 @@
     var showYearSelection = false;
     var regionSelect = "";
     var showLegendSelection = false;
-    var highlightOpacity = 0.7;
-    var normalOpacity = 0.2;
+    var highlightOpacity = 0.8;
+    var normalOpacity = 0.4;
 
     function resetScene(sceneNumber) {
         d3.select("#div_template").html("")
@@ -121,7 +121,7 @@
         }
         if (golbalSceneNumber === 3) {
             showToolTip = false;
-            showAnnotation1 = true;
+            showAnnotation1 = false;
             showAnnotation2 = false;
             showAnnotation3 = true;
             showYearSelection = false;
@@ -180,7 +180,6 @@
                 .style("left", "750px")
                 .style("top", "200px")
         }
-
 
         if (showAnnotation2) {
             var Annotation2 = d3.select("#div_template")
@@ -291,6 +290,7 @@ var circles_health = wrapper.selectAll("circle").data(data).enter().append("circ
             .style("opacity", function (d) {
                 return highlight(d.REGION);
             })
+        
         if (showToolTip) {
             circles.on("mouseover", mouseover)
                 .on("mousemove", mousemove)
