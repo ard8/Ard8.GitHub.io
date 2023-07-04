@@ -240,10 +240,10 @@
                 return xs(d.GDP);
             })
             .attr("cy", function (d) {
-                return ys(d.LifeExp);
+                return ys(d.LIFEXP);
             })
             .attr("r", function (d) {
-                return rs(Number(d.Population));
+                return rs(Number(d.POPTOT));
             })
             .attr("fill", function (d) {
                 return cs(d.Region);
