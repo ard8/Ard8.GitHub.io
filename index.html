@@ -17,7 +17,7 @@
     opacity: 1;
     position: absolute;
     width: 120px;
-    height: 120px;
+    height: 140px;
     text-align: center;
     background-color: white;
     border: 3px solid green;
@@ -221,10 +221,10 @@
         };
         var mousemove = function (d) {
             Tooltip
-                .html("<em>" + d.COUNTRY + "</em><br/> Population: " + formatNumber(d.POP_TOTAL) +"<br>" +
-                    "Life Expectancy: " + formatDecimal(d.LIFE_EXP_TOTAL,2) + "<br/>" +
-                    "GDP/capita: " + formatDecimal(d.GDP_CAPITA,2) + "<br/>" +
-                    "Health Exp/capita: " + formatDecimal(d.HEALTH_CAPITA,2))
+                .html("<em>" + d.COUNTRY + "</em><br/> Population: " + d.POP_TOTAL +"<br>" +
+                    "Life Expectancy: " + d.LIFE_EXP_TOTAL + "<br/>" +
+                    "GDP/capita: " + d.GDP_CAPITA + "<br/>" +
+                    "Health Exp/capita: " + d.HEALTH_CAPITA)
                 .style("left", (d3.event.pageX) + "px")
                 .style("top", (d3.event.pageY - 220) + "px")
         };
@@ -252,7 +252,8 @@
 
         var ys = d3.scaleLinear().domain([50, 90]).range([height, 0]);
         var xs = d3.scaleLog().domain([100, 140000]).range([0, width]);
-        var rs = d3.scaleLog().domain([30000, 1600000000]).range([0, 15]);
+        //var rs = d3.scaleLog().domain([30000, 1600000000]).range([0, 15]);
+        var rs = d3.scaleLog().domain([30000, 5000000]).range([0, 15]);
         var cs = d3.scaleOrdinal().domain(regions)
             .range(["gold", "blue", "green", "red", "brown", "slateblue"])
         data = await d3.csv('https://ard8.github.io/data-final-5.csv');
