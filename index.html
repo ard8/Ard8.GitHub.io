@@ -194,8 +194,8 @@
         };
         var mousemove = function (d) {
             Tooltip
-                .html("<em>" + d.Country + "</em><br/> Population: " + d.Population +"<br>" +
-                    "Life Expectancy: " + d.LifeExp + "<br/>" +
+                .html("<em>" + d.Country + "</em><br/> Population: " + d.POPTOT +"<br>" +
+                    "Life Expectancy: " + d.LIFEXP + "<br/>" +
                     "GDP/capita: " + d.GDP)
                 .style("left", (d3.event.pageX) + "px")
                 .style("top", (d3.event.pageY - 220) + "px")
