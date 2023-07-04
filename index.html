@@ -323,7 +323,24 @@ var circles_health = wrapper.selectAll("circle").data(data).enter().append("circ
             .style("font-size", "12px")
             .attr("transform", "translate(18, 0) rotate(-90)")
             .text("Life Expectancy at Birth");
+ 
+        //Set up second X axis label
+        wrapper.append("h")
+            .append("text")
+            .attr("class", "x title")
+            .attr("text-anchor", "end")
+            .style("font-size", "12px")
+            .attr("transform", "translate(" + width + "," + (height - 10) + ")")
+            .text("Health Expenditure per capita [USD] - Logarithmic scale");
 
+        // Set up second y axis label
+        wrapper.append("h")
+            .append("text")
+            .attr("class", "y title")
+            .attr("text-anchor", "end")
+            .style("font-size", "12px")
+            .attr("transform", "translate(18, 0) rotate(-90)")
+            .text("Life Expectancy at Birth");
         //Legend
         var legendMargin = {left: 5, top: 10, right: 5, bottom: 10},
             legendWidth = 160,
@@ -333,6 +350,9 @@ var circles_health = wrapper.selectAll("circle").data(data).enter().append("circ
             .attr("width", (legendWidth + legendMargin.left + legendMargin.right))
             .attr("height", (legendHeight + legendMargin.top + legendMargin.bottom));
 
+        var legendWrapperhealth = svgLegend.append("h").attr("class", "legendWrapperhealth")
+            .attr("transform", "translate(" + legendMargin.left + "," + legendMargin.top + ")");
+        
         var legendWrapper = svgLegend.append("g").attr("class", "legendWrapper")
             .attr("transform", "translate(" + legendMargin.left + "," + legendMargin.top + ")");
 
@@ -349,6 +369,15 @@ var circles_health = wrapper.selectAll("circle").data(data).enter().append("circ
                 return "translate(" + 0 + "," + (i * rowHeight) + ")";
             })
 
+           //Create container per rect/text pair health
+        var legendhealth = legendWrapperhealth.selectAll('.legendSquare')
+            .data(cs.range())
+            .enter().append('g')
+            .attr('class', 'legendSquare')
+            .attr("transform", function (d, i) {
+                return "translate(" + 0 + "," + (i * rowHeight) + ")";
+            })
+        
         //Append small squares to Legend
         legend.append('rect')
             .attr('width', rectSize)
@@ -356,6 +385,7 @@ var circles_health = wrapper.selectAll("circle").data(data).enter().append("circ
             .style('fill', function (d) {
                 return d;
             });
+        
         //Append text to Legend
         legend.append('text')
             .attr('transform', 'translate(' + 25 + ',' + (rectSize / 2) + ')')
@@ -381,14 +411,14 @@ var circles_health = wrapper.selectAll("circle").data(data).enter().append("circ
 
                 wrapper.selectAll(".countries")
                     .filter(function (d) {
-                        return d.Region !== chosen;
+                        return d.REGION !== chosen;
                     })
                     .transition()
                     .style("opacity", opacity);
 
                 wrapper.selectAll(".countries")
                     .filter(function (d) {
-                        return d.Region === chosen;
+                        return d.REGION === chosen;
                     })
                     .transition()
                     .style("opacity", highlightOpacity);
