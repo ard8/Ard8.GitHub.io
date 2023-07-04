@@ -252,8 +252,7 @@
 
         var ys = d3.scaleLinear().domain([50, 90]).range([height, 0]);
         var xs = d3.scaleLog().domain([100, 140000]).range([0, width]);
-        //var rs = d3.scaleLog().domain([30000, 1600000000]).range([0, 15]);
-        var rs = d3.scaleLog().domain([30000, 5000000]).range([0, 15]);
+        var rs = d3.scaleLog().domain([10000, 1500000000]).range([0, 15]);
         var cs = d3.scaleOrdinal().domain(regions)
             .range(["gold", "blue", "green", "red", "brown", "slateblue"])
         data = await d3.csv('https://ard8.github.io/data-final-5.csv');
