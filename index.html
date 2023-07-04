@@ -194,9 +194,10 @@
         };
         var mousemove = function (d) {
             Tooltip
-                .html("<em>" + d.Country + "</em><br/> Population: " + d.POPTOT +"<br>" +
-                    "Life Expectancy: " + d.LIFEXP + "<br/>" +
-                    "GDP/capita: " + d.GDP)
+                .html("<em>" + d.COUNTRY + "</em><br/> Population: " + d.POP_TOTAL +"<br>" +
+                    "Life Expectancy: " + d.LIFE_EXP_TOTAL + "<br/>" +
+                    "GDP/capita: " + d.GDP_CAPITA + "<br/>" +
+                    "Health Exp/capita: " + d.HEALTH_CAPITA)
                 .style("left", (d3.event.pageX) + "px")
                 .style("top", (d3.event.pageY - 220) + "px")
         };
@@ -225,7 +226,7 @@
         var rs = d3.scaleLog().domain([30000, 1600000000]).range([0, 15]);
         var cs = d3.scaleOrdinal().domain(regions)
             .range(["gold", "blue", "green", "red", "brown", "slateblue"])
-        data = await d3.csv('https://ard8.github.io/data-final-3.csv');
+        data = await d3.csv('https://ard8.github.io/data-final-5.csv');
         console.log(data);
         var svg = d3.select("#div_template").append("svg")
             .attr("width", (width + margin.left + margin.right))
@@ -237,19 +238,19 @@
         var circles = wrapper.selectAll("circle").data(data).enter().append("circle")
             .attr("class", "countries")
             .attr("cx", function (d) {
-                return xs(d.GDP);
+                return xs(d.GDP_CAPITA);
             })
             .attr("cy", function (d) {
-                return ys(d.LIFEXP);
+                return ys(d.LIFE_EXP_TOTAL);
             })
             .attr("r", function (d) {
-                return rs(Number(d.POPTOT));
+                return rs(Number(d.POP_TOTAL));
             })
             .attr("fill", function (d) {
-                return cs(d.Region);
+                return cs(d.REGION);
             })
             .style("opacity", function (d) {
-                return highlight(d.Region);
+                return highlight(d.REGION);
             })
 
         if (showToolTip) {
