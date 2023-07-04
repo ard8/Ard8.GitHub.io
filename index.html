@@ -84,7 +84,93 @@
         d3.select("#button" + sceneNumber).attr("class", "btn btn-primary")
         init()
     }
-    function createGraphs(graphNumber) {
+    
+    function changeScene(sceneNumber) {
+        globalSceneNumber = sceneNumber;
+        if (globalSceneNumber === 1) {
+            showToolTip = false;
+            showAnnotation1 = true;
+            showAnnotation2 = false;
+            showAnnotation3 = false;
+            showYearSelection = false;
+            createGraphs(1);
+            regionSelect = ""
+            showLegendSelection = false;
+            d3.select("#scene-desc")
+                .html("<p>Looking at the chart, we can see a clear relationship between life expectancy and GDP per Capita." +
+                    "People tends to have a lower life expectance in poor countries, and on the contrary the people that live in wealthy countries tend to have a higher life expectancy.</p>")
+            resetScene(1);
+        }
+        if (globalSceneNumber === 2) {
+            showToolTip = false;
+            showAnnotation1 = false;
+            showAnnotation2 = true;
+            showAnnotation3 = false;
+            showYearSelection = false;
+            createGraphs(1);
+            regionSelect = "Europe"
+            showLegendSelection = false;
+            d3.select("#scene-desc")
+                .html("<p>But there are still regional difference. For example Europe is different. " +
+                    "It seems all European countries tend to have very higher life expectancy, though their GDP per Capita vary much.</p>")
+            d3.select("#div_template").html("")
+            resetScene(2)
+        }
+        if (globalSceneNumber === 3) {
+            showToolTip = false;
+            showAnnotation1 = false;
+            showAnnotation2 = false;
+            showAnnotation3 = true;
+            showYearSelection = false;
+            createGraphs(2);
+            regionSelect = ""
+            showLegendSelection = false;
+            d3.select("#scene-desc")
+                .html("<p>Looking at the chart, we can see a clear relationship between life expectancy and Health Expenditure per Capita." +
+                    "People tends to have a lower life expectance in countries with lower healthcare expenditure per capita vs country with higher rates.</p>")
+            resetScene(3);
+        }
+   if (globalSceneNumber === 4) {
+            showToolTip = true;
+            showAnnotation1 = false;
+            showAnnotation2 = false;
+            showAnnotation3 = false;
+            showYearSelection = true;
+            regionSelect = ""
+            showLegendSelection = true;
+            d3.select("#scene-desc")
+                .html("<h2>Explore with your mouse!</h2><br><p>" +
+                    "Move your mouse over the legend and the circles.</p>")
+            resetScene(4)
+        }
+    }
+    
+
+    async function init() {
+    //console.log('init function started'); 
+        // create a tooltip
+        var Tooltip = d3.select("#div_template")
+            .append("div")
+            .style("opacity", 0)
+            .style("position", "absolute")
+            .attr("class", "tooltip")
+            .style("width", "200px")
+            .style("height", "100px")
+            .style("text-align", "center")
+            .style("background-color", "white")
+            .style("border", "solid")
+            .style("border-width", "2px")
+            .style("border-radius", "2px")
+            .style("padding", "2px");
+        
+        function formatNumber(number) {
+            return number.toLocaleString();
+        }
+
+        function formatDecimal(number, decimalPlaces) {
+            return number.toFixed(decimalPlaces)
+        }
+          function createGraphs(graphNumber) {
         globalGraphNumber = graphNumber;
         if (globalGraphNumber === 1) {
             var regions = ["Africa", "Asia", "Europe", "North America", "Oceania", "South America"];
@@ -172,92 +258,6 @@ var mouseover = function (d) {
                 return highlight(d.REGION);
             })
         }
-    function changeScene(sceneNumber) {
-        globalSceneNumber = sceneNumber;
-        if (globalSceneNumber === 1) {
-            showToolTip = false;
-            showAnnotation1 = true;
-            showAnnotation2 = false;
-            showAnnotation3 = false;
-            showYearSelection = false;
-            createGraphs(1);
-            regionSelect = ""
-            showLegendSelection = false;
-            d3.select("#scene-desc")
-                .html("<p>Looking at the chart, we can see a clear relationship between life expectancy and GDP per Capita." +
-                    "People tends to have a lower life expectance in poor countries, and on the contrary the people that live in wealthy countries tend to have a higher life expectancy.</p>")
-            resetScene(1);
-        }
-        if (globalSceneNumber === 2) {
-            showToolTip = false;
-            showAnnotation1 = false;
-            showAnnotation2 = true;
-            showAnnotation3 = false;
-            showYearSelection = false;
-            createGraphs(1);
-            regionSelect = "Europe"
-            showLegendSelection = false;
-            d3.select("#scene-desc")
-                .html("<p>But there are still regional difference. For example Europe is different. " +
-                    "It seems all European countries tend to have very higher life expectancy, though their GDP per Capita vary much.</p>")
-            d3.select("#div_template").html("")
-            resetScene(2)
-        }
-        if (globalSceneNumber === 3) {
-            showToolTip = false;
-            showAnnotation1 = false;
-            showAnnotation2 = false;
-            showAnnotation3 = true;
-            showYearSelection = false;
-            createGraphs(2);
-            regionSelect = ""
-            showLegendSelection = false;
-            d3.select("#scene-desc")
-                .html("<p>Looking at the chart, we can see a clear relationship between life expectancy and Health Expenditure per Capita." +
-                    "People tends to have a lower life expectance in countries with lower healthcare expenditure per capita vs country with higher rates.</p>")
-            resetScene(3);
-        }
-   if (globalSceneNumber === 4) {
-            showToolTip = true;
-            showAnnotation1 = false;
-            showAnnotation2 = false;
-            showAnnotation3 = false;
-            showYearSelection = true;
-            regionSelect = ""
-            showLegendSelection = true;
-            d3.select("#scene-desc")
-                .html("<h2>Explore with your mouse!</h2><br><p>" +
-                    "Move your mouse over the legend and the circles.</p>")
-            resetScene(4)
-        }
-    }
-    
-
-    async function init() {
-    //console.log('init function started'); 
-        // create a tooltip
-        var Tooltip = d3.select("#div_template")
-            .append("div")
-            .style("opacity", 0)
-            .style("position", "absolute")
-            .attr("class", "tooltip")
-            .style("width", "200px")
-            .style("height", "100px")
-            .style("text-align", "center")
-            .style("background-color", "white")
-            .style("border", "solid")
-            .style("border-width", "2px")
-            .style("border-radius", "2px")
-            .style("padding", "2px");
-        
-        function formatNumber(number) {
-            return number.toLocaleString();
-        }
-
-        function formatDecimal(number, decimalPlaces) {
-            return number.toFixed(decimalPlaces)
-        }
-        
         if (showAnnotation1) {
             var Annotation1_1 = d3.select("#div_template")
                 .append("div")
