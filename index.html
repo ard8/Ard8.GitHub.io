@@ -214,10 +214,10 @@
         };
         var mousemove = function (d) {
             Tooltip
-                .html("<em>" + d.COUNTRY + "</em><br/> Population: " + d.POP_TOTAL +"<br>" +
-                    "Life Expectancy: " + d.LIFE_EXP_TOTAL + "<br/>" +
-                    "GDP/capita: " + d.GDP_CAPITA + "<br/>" +
-                    "Health Exp/capita: " + d.HEALTH_CAPITA)
+                .html("<em>" + d.COUNTRY + "</em><br/> Population: " + d.POP_TOTAL.toFixed(0) +"<br>" +
+                    "Life Expectancy: " + d.LIFE_EXP_TOTAL.toFixed(2) + "<br/>" +
+                    "GDP/capita: " + d.GDP_CAPITA.toFixed(2) + "<br/>" +
+                    "Health Exp/capita: " + d.HEALTH_CAPITA.toFixed(2))
                 .style("left", (d3.event.pageX) + "px")
                 .style("top", (d3.event.pageY - 220) + "px")
         };
