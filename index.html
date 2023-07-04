@@ -65,7 +65,8 @@
         width = 800 - margin.left - margin.right,
         height = width * 2 / 3;
 
-    var golbalSceneNumber = 1;
+    var globalSceneNumber = 1;
+    var globalGraphNumber = 1;
     var showToolTip = false;
     var showAnnotation1 = true;
     var showAnnotation2 = false;
@@ -83,10 +84,97 @@
         d3.select("#button" + sceneNumber).attr("class", "btn btn-primary")
         init()
     }
+    function createGraphs(graphNumber) {
+        globalGraphNumber = graphNumber;
+        if (globalGraphNumber === 1) {
+            var regions = ["Africa", "Asia", "Europe", "North America", "Oceania", "South America"];
+            var ys = d3.scaleLinear().domain([50, 90]).range([height, 0]);
+            var xs = d3.scaleLog().domain([100, 140000]).range([0, width]);
+            var rs = d3.scaleLog().domain([10000, 1500000000]).range([0, 15]);
+            var cs = d3.scaleOrdinal().domain(regions)
+                .range(["gold", "blue", "green", "red", "brown", "slateblue"])
+            data = await d3.csv('https://ard8.github.io/data-final-5.csv');
+            var svg = d3.select("#div_template").append("svg")
+                .attr("width", (width + margin.left + margin.right))
+                .attr("height", (height + margin.top + margin.bottom));
+            var wrapper = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")")
 
+            var circles = wrapper.selectAll("circle").data(data).enter().append("circle")
+            .attr("class", "countries")
+            .attr("cx", function (d) {
+                return xs(d.GDP_CAPITA);
+            })
+            .attr("cy", function (d) {
+                return ys(d.LIFE_EXP_TOTAL);
+            })
+            .attr("r", function (d) {
+                return rs(Number(d.POP_TOTAL));
+            })
+            .attr("fill", function (d) {
+                return cs(d.REGION);
+            })
+            .style("opacity", function (d) {
+                return highlight(d.REGION);
+            })
+var mouseover = function (d) {
+            Tooltip
+                .style("opacity", 1)
+            d3.select(this)
+                .style("stroke", "green")
+                .style("opacity", 1)
+        };
+        var mousemove = function (d) {
+            Tooltip
+                .html("<em>" + d.COUNTRY + "</em><br/> Population: " + d.POP_TOTAL +"<br>" +
+                    "Life Expectancy: " + d.LIFE_EXP_TOTAL + "<br/>" +
+                    "GDP/capita: " + d.GDP_CAPITA + "<br/>" +
+                    "Health Exp/capita: " + d.HEALTH_CAPITA)
+                .style("left", (d3.event.pageX) + "px")
+                .style("top", (d3.event.pageY - 220) + "px")
+        };
+
+
+        var mouseleave = function (d) {
+            Tooltip
+                .style("opacity", 0)
+            d3.select(this)
+                .style("stroke", "black")
+                .style("opacity", normalOpacity)
+        };
+
+        var highlight = function (d) {
+            if ("" === regionSelect) {
+                return normalOpacity;
+            }
+            if (d === regionSelect) {
+                return highlightOpacity;
+            } else {
+                return 0.05;
+            }
+        }
+        }
+        if (globalGraphNumber === 2) {
+            var circles_health = wrapper.selectAll("circle").data(data).enter().append("circle")
+            .attr("class", "countries")
+            .attr("cx", function (d) {
+                return xs(d.HEALTH_CAPITA);
+            })
+            .attr("cy", function (d) {
+                return ys(d.LIFE_EXP_TOTAL);
+            })
+            .attr("r", function (d) {
+                return rs(Number(d.POP_TOTAL));
+            })
+            .attr("fill", function (d) {
+                return cs(d.REGION);
+            })
+            .style("opacity", function (d) {
+                return highlight(d.REGION);
+            })
+        }
     function changeScene(sceneNumber) {
-        golbalSceneNumber = sceneNumber;
-        if (golbalSceneNumber === 1) {
+        globalSceneNumber = sceneNumber;
+        if (globalSceneNumber === 1) {
             showToolTip = false;
             showAnnotation1 = true;
             showAnnotation2 = false;
@@ -99,7 +187,7 @@
                     "People tends to have a lower life expectance in poor countries, and on the contrary the people that live in wealthy countries tend to have a higher life expectancy.</p>")
             resetScene(1);
         }
-        if (golbalSceneNumber === 2) {
+        if (globalSceneNumber === 2) {
             showToolTip = false;
             showAnnotation1 = false;
             showAnnotation2 = true;
@@ -113,7 +201,7 @@
             d3.select("#div_template").html("")
             resetScene(2)
         }
-        if (golbalSceneNumber === 3) {
+        if (globalSceneNumber === 3) {
             showToolTip = false;
             showAnnotation1 = false;
             showAnnotation2 = false;
@@ -126,7 +214,7 @@
                     "People tends to have a lower life expectance in countries with lower healthcare expenditure per capita vs country with higher rates.</p>")
             resetScene(3);
         }
-   if (golbalSceneNumber === 4) {
+   if (globalSceneNumber === 4) {
             showToolTip = true;
             showAnnotation1 = false;
             showAnnotation2 = false;
@@ -207,92 +295,10 @@
                 .style("left", "750px")
                 .style("top", "200px")
         }
-        var mouseover = function (d) {
-            Tooltip
-                .style("opacity", 1)
-            d3.select(this)
-                .style("stroke", "green")
-                .style("opacity", 1)
-        };
-        var mousemove = function (d) {
-            Tooltip
-                .html("<em>" + d.COUNTRY + "</em><br/> Population: " + d.POP_TOTAL +"<br>" +
-                    "Life Expectancy: " + d.LIFE_EXP_TOTAL + "<br/>" +
-                    "GDP/capita: " + d.GDP_CAPITA + "<br/>" +
-                    "Health Exp/capita: " + d.HEALTH_CAPITA)
-                .style("left", (d3.event.pageX) + "px")
-                .style("top", (d3.event.pageY - 220) + "px")
-        };
-
-
-        var mouseleave = function (d) {
-            Tooltip
-                .style("opacity", 0)
-            d3.select(this)
-                .style("stroke", "black")
-                .style("opacity", normalOpacity)
-        };
-
-        var highlight = function (d) {
-            if ("" === regionSelect) {
-                return normalOpacity;
-            }
-            if (d === regionSelect) {
-                return highlightOpacity;
-            } else {
-                return 0.05;
-            }
-        }
-        var regions = ["Africa", "Asia", "Europe", "North America", "Oceania", "South America"];
-
-        var ys = d3.scaleLinear().domain([50, 90]).range([height, 0]);
-        var xs = d3.scaleLog().domain([100, 140000]).range([0, width]);
-        var rs = d3.scaleLog().domain([10000, 1500000000]).range([0, 15]);
-        var cs = d3.scaleOrdinal().domain(regions)
-            .range(["gold", "blue", "green", "red", "brown", "slateblue"])
-        data = await d3.csv('https://ard8.github.io/data-final-5.csv');
-        var svg = d3.select("#div_template").append("svg")
-            .attr("width", (width + margin.left + margin.right))
-            .attr("height", (height + margin.top + margin.bottom));
-
-        var wrapper = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-
-
-        var circles = wrapper.selectAll("circle").data(data).enter().append("circle")
-            .attr("class", "countries")
-            .attr("cx", function (d) {
-                return xs(d.GDP_CAPITA);
-            })
-            .attr("cy", function (d) {
-                return ys(d.LIFE_EXP_TOTAL);
-            })
-            .attr("r", function (d) {
-                return rs(Number(d.POP_TOTAL));
-            })
-            .attr("fill", function (d) {
-                return cs(d.REGION);
-            })
-            .style("opacity", function (d) {
-                return highlight(d.REGION);
-            })
         
-var circles_health = wrapper.selectAll("circle").data(data).enter().append("circle")
-            .attr("class", "countries")
-            .attr("cx", function (d) {
-                return xs(d.HEALTH_CAPITA);
-            })
-            .attr("cy", function (d) {
-                return ys(d.LIFE_EXP_TOTAL);
-            })
-            .attr("r", function (d) {
-                return rs(Number(d.POP_TOTAL));
-            })
-            .attr("fill", function (d) {
-                return cs(d.REGION);
-            })
-            .style("opacity", function (d) {
-                return highlight(d.REGION);
-            })
+        
+        
+
         
         if (showToolTip) {
             circles.on("mouseover", mouseover)
