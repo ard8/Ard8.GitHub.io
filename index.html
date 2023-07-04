@@ -172,7 +172,7 @@
                 .attr("class", "annotation")
                 .html("The <em>richest</em> countries have <em>Highest</em> life expectancy")
                 .style("left", "750px")
-                .style("top", "100px")
+                .style("top", "200px")
         }
 
 
@@ -180,7 +180,7 @@
             var Annotation2 = d3.select("#div_template")
                 .append("div")
                 .attr("class", "annotation")
-                .html("<em>European</em> countries all very high life expectancy and GDP income")
+                .html("<em>European</em> countries have high life expectancy and GDP income")
                 .style("left", "550px")
                 .style("top", "250px")
         }
@@ -252,7 +252,24 @@
             .style("opacity", function (d) {
                 return highlight(d.REGION);
             })
-
+        
+var circles_health = wrapper.selectAll("circle").data(data).enter().append("circle")
+            .attr("class", "countries")
+            .attr("cx", function (d) {
+                return xs(d.HEALTH_CAPITA);
+            })
+            .attr("cy", function (d) {
+                return ys(d.LIFE_EXP_TOTAL);
+            })
+            .attr("r", function (d) {
+                return rs(Number(d.POP_TOTAL));
+            })
+            .attr("fill", function (d) {
+                return cs(d.REGION);
+            })
+            .style("opacity", function (d) {
+                return highlight(d.REGION);
+            })
         if (showToolTip) {
             circles.on("mouseover", mouseover)
                 .on("mousemove", mousemove)
