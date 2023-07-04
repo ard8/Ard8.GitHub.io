@@ -225,7 +225,7 @@
         var rs = d3.scaleLog().domain([30000, 1600000000]).range([0, 15]);
         var cs = d3.scaleOrdinal().domain(regions)
             .range(["gold", "blue", "green", "red", "brown", "slateblue"])
-        data = await d3.csv('https://ard8.github.io/data3.csv');
+        data = await d3.csv('https://ard8.github.io/data-final-3.csv');
         console.log(data);
         var svg = d3.select("#div_template").append("svg")
             .attr("width", (width + margin.left + margin.right))
