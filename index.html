@@ -75,6 +75,7 @@
     var showToolTip = false;
     var showAnnotation1 = true;
     var showAnnotation2 = false;
+    var showAnnotation3 = false;
     var showYearSelection = false;
     var regionSelect = "";
     var showLegendSelection = false;
@@ -93,8 +94,9 @@
         golbalSceneNumber = sceneNumber;
         if (golbalSceneNumber === 1) {
             showToolTip = false;
-            showAnnotation1 = true
-            showAnnotation2 = false
+            showAnnotation1 = true;
+            showAnnotation2 = false;
+            showAnnotation3 = false;
             showYearSelection = false;
             regionSelect = ""
             showLegendSelection = false;
@@ -107,6 +109,7 @@
             showToolTip = false;
             showAnnotation1 = false;
             showAnnotation2 = true;
+            showAnnotation3 = false;
             showYearSelection = false;
             regionSelect = "Europe"
             showLegendSelection = false;
@@ -118,8 +121,9 @@
         }
         if (golbalSceneNumber === 3) {
             showToolTip = false;
-            showAnnotation1 = true
-            showAnnotation2 = false
+            showAnnotation1 = true;
+            showAnnotation2 = false;
+            showAnnotation3 = true;
             showYearSelection = false;
             regionSelect = ""
             showLegendSelection = false;
@@ -132,6 +136,7 @@
             showToolTip = true;
             showAnnotation1 = false;
             showAnnotation2 = false;
+            showAnnotation3 = false;
             showYearSelection = true;
             regionSelect = ""
             showLegendSelection = true;
@@ -185,7 +190,22 @@
                 .style("left", "550px")
                 .style("top", "250px")
         }
+        
+        if (showAnnotation3) {
+            var Annotation3_1 = d3.select("#div_template")
+                .append("div")
+                .attr("class", "annotation")
+                .html("The <em>lowest Healthcare Expenditure</em> countries have <em>Lowest</em> life expectancy")
+                .style("left", "100px")
+                .style("top", "300px")
 
+            var Annotation3_2 = d3.select("#div_template")
+                .append("div")
+                .attr("class", "annotation")
+                .html("The <em>highest Healthcare Expenditure</em> countries have <em>Highest</em> life expectancy")
+                .style("left", "750px")
+                .style("top", "200px")
+        }
         var mouseover = function (d) {
             Tooltip
                 .style("opacity", 1)
