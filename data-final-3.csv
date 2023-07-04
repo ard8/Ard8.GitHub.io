@@ -1,4 +1,4 @@
-Time,Region,Country Name,Country Code,"Life expectancy at birth, female (years) [SP.DYN.LE00.FE.IN]","Life expectancy at birth, male (years) [SP.DYN.LE00.MA.IN]","Life expectancy at birth, total (years) [SP.DYN.LE00.IN]","Population, female [SP.POP.TOTL.FE.IN]","Population, male [SP.POP.TOTL.MA.IN]","Population, total [SP.POP.TOTL]","GDP per capita, PPP (current international $) [NY.GDP.PCAP.PP.CD]"
+Time,Region,Country,COUNtryCODE,LIFEXPFEMALE,LIFEXPMALE,LIFEXP,POPFEM,POPMALE,POPTOT,GDP
 2022,Asia,Afghanistan,AFG,..,..,..,20362329,20766442,41128771,..
 2022,Europe,Albania,ALB,..,..,..,1391085,1384548,2775634,18551.71648
 2022,Africa,Algeria,DZA,..,..,..,22040987,22862237,44903225,13209.59677
