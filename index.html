@@ -242,7 +242,7 @@
         var regions = ["Africa", "Asia", "Europe", "North America", "Oceania", "South America"];
 
         var ys = d3.scaleLinear().domain([50, 90]).range([height, 0]);
-        var xs = d3.scaleLog().domain([100, 100000]).range([0, width]);
+        var xs = d3.scaleLog().domain([100, 140000]).range([0, width]);
         var rs = d3.scaleLog().domain([30000, 1600000000]).range([0, 15]);
         var cs = d3.scaleOrdinal().domain(regions)
             .range(["gold", "blue", "green", "red", "brown", "slateblue"])
@@ -301,7 +301,7 @@ var circles_health = wrapper.selectAll("circle").data(data).enter().append("circ
             .call(d3.axisLeft(ys).ticks(5))
 
         wrapper.append("g").attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(xs).tickValues([10, 100, 1000, 10000, 100000]).tickFormat(d3.format("~s")))
+            .call(d3.axisBottom(xs).tickValues([100, 1000, 10000, 100000, 140000]).tickFormat(d3.format("~s")))
 
         //Set up X axis label
         wrapper.append("g")
