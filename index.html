@@ -135,8 +135,8 @@
             regionSelect = ""
             showLegendSelection = true;
             d3.select("#scene-desc")
-                .html("<h2>Now use your mouse to explore!</h2><br><p>" +
-                    "Try move your mouse over the legend and the circles.</p>")
+                .html("<h2>Explore with your mouse!</h2><br><p>" +
+                    "Move your mouse over the legend and the circles.</p>")
             resetScene(4)
         }
     }
@@ -166,6 +166,7 @@
         function formatDecimal(number, decimalPlaces) {
             return number.toFixed(decimalPlaces)
         }
+        
         if (showAnnotation1) {
             var Annotation1_1 = d3.select("#div_template")
                 .append("div")
@@ -250,7 +251,6 @@
         var cs = d3.scaleOrdinal().domain(regions)
             .range(["gold", "blue", "green", "red", "brown", "slateblue"])
         data = await d3.csv('https://ard8.github.io/data-final-5.csv');
-        console.log(data);
         var svg = d3.select("#div_template").append("svg")
             .attr("width", (width + margin.left + margin.right))
             .attr("height", (height + margin.top + margin.bottom));
@@ -305,6 +305,12 @@ var circles_health = wrapper.selectAll("circle").data(data).enter().append("circ
 
         wrapper.append("g").attr("transform", "translate(0," + height + ")")
           .call(d3.axisBottom(xs).tickValues([100, 1000, 10000, 100000, 1000000]).tickFormat(d3.format("~s")))
+     
+        wrapper.append("h").attr("transform", "translate(0,0)")
+            .call(d3.axisLeft(ys).ticks(5))
+
+        wrapper.append("h").attr("transform", "translate(0," + height + ")")
+          .call(d3.axisBottom(xs).tickValues([100, 1000, 10000]).tickFormat(d3.format("~s")))
 
         //Set up X axis label
         wrapper.append("g")
@@ -341,6 +347,7 @@ var circles_health = wrapper.selectAll("circle").data(data).enter().append("circ
             .style("font-size", "12px")
             .attr("transform", "translate(18, 0) rotate(-90)")
             .text("Life Expectancy at Birth");
+       
         //Legend
         var legendMargin = {left: 5, top: 10, right: 5, bottom: 10},
             legendWidth = 160,
@@ -401,7 +408,6 @@ var circles_health = wrapper.selectAll("circle").data(data).enter().append("circ
             legend.style("cursor", "pointer")
                 .on("mouseover", selectLegend(0.02))
                 .on("mouseout", selectLegend(normalOpacity))
-            // .on("click", selectLegend(0.02));
         }
 
         //Decrease opacity of non selected circles when hovering in the legend
