@@ -164,7 +164,14 @@
             .style("border-width", "2px")
             .style("border-radius", "2px")
             .style("padding", "2px");
+        
+        function formatNumber(number) {
+            return number.toLocaleString();
+        }
 
+        function formatDecimal(number, decimalPlaces) {
+            return number.toFixed(decimalPlaces)
+        }
         if (showAnnotation1) {
             var Annotation1_1 = d3.select("#div_template")
                 .append("div")
@@ -186,7 +193,7 @@
                 .append("div")
                 .attr("class", "annotation")
                 .html("<em>European</em> countries have high life expectancy and GDP income")
-                .style("left", "550px")
+                .style("left", "750px")
                 .style("top", "250px")
         }
         
@@ -222,13 +229,7 @@
                 .style("top", (d3.event.pageY - 220) + "px")
         };
 
-        function formatNumber(number) {
-            return number.toLocaleString();
-        }
 
-        function formatDecimal(number, decimalPlaces) {
-            return number.toFixed(decimalPlaces)
-        }
         var mouseleave = function (d) {
             Tooltip
                 .style("opacity", 0)
