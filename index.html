@@ -222,7 +222,7 @@
         }
         var regions = ["Africa", "Asia", "Europe", "North America", "Oceania", "South America"];
 
-        var ys = d3.scaleLinear().domain([0, 100]).range([height, 0]);
+        var ys = d3.scaleLinear().domain([50, 90]).range([height, 0]);
         var xs = d3.scaleLog().domain([100, 100000]).range([0, width]);
         var rs = d3.scaleLog().domain([30000, 1600000000]).range([0, 15]);
         var cs = d3.scaleOrdinal().domain(regions)
