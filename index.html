@@ -238,6 +238,35 @@ var mouseover = function (d) {
                 return 0.05;
             }
         }
+                    if (showToolTip) {
+            circles.on("mouseover", mouseover)
+                .on("mousemove", mousemove)
+                .on("mouseleave", mouseleave)
+        }
+
+        wrapper.append("g").attr("transform", "translate(0,0)")
+            .call(d3.axisLeft(ys).ticks(5))
+
+        wrapper.append("g").attr("transform", "translate(0," + height + ")")
+          .call(d3.axisBottom(xs).tickValues([100, 1000, 10000, 100000, 1000000]).tickFormat(d3.format("~s")))
+             //Set up X axis label
+        wrapper.append("g")
+            .append("text")
+            .attr("class", "x title")
+            .attr("text-anchor", "end")
+            .style("font-size", "12px")
+            .attr("transform", "translate(" + width + "," + (height - 10) + ")")
+            .text("GDP per capita [USD] - Logarithmic scale");
+
+        // Set up y axis label
+        wrapper.append("g")
+            .append("text")
+            .attr("class", "y title")
+            .attr("text-anchor", "end")
+            .style("font-size", "12px")
+            .attr("transform", "translate(18, 0) rotate(-90)")
+            .text("Life Expectancy at Birth");
+ 
         }
         if (globalGraphNumber === 2) {
             var circles_health = wrapper.selectAll("circle").data(data).enter().append("circle")
@@ -303,17 +332,7 @@ var mouseover = function (d) {
         
 
         
-        if (showToolTip) {
-            circles.on("mouseover", mouseover)
-                .on("mousemove", mousemove)
-                .on("mouseleave", mouseleave)
-        }
 
-        wrapper.append("g").attr("transform", "translate(0,0)")
-            .call(d3.axisLeft(ys).ticks(5))
-
-        wrapper.append("g").attr("transform", "translate(0," + height + ")")
-          .call(d3.axisBottom(xs).tickValues([100, 1000, 10000, 100000, 1000000]).tickFormat(d3.format("~s")))
      
         wrapper.append("h").attr("transform", "translate(0,0)")
             .call(d3.axisLeft(ys).ticks(5))
@@ -321,24 +340,7 @@ var mouseover = function (d) {
         wrapper.append("h").attr("transform", "translate(0," + height + ")")
           .call(d3.axisBottom(xs).tickValues([100, 1000, 10000]).tickFormat(d3.format("~s")))
 
-        //Set up X axis label
-        wrapper.append("g")
-            .append("text")
-            .attr("class", "x title")
-            .attr("text-anchor", "end")
-            .style("font-size", "12px")
-            .attr("transform", "translate(" + width + "," + (height - 10) + ")")
-            .text("GDP per capita [USD] - Logarithmic scale");
-
-        // Set up y axis label
-        wrapper.append("g")
-            .append("text")
-            .attr("class", "y title")
-            .attr("text-anchor", "end")
-            .style("font-size", "12px")
-            .attr("transform", "translate(18, 0) rotate(-90)")
-            .text("Life Expectancy at Birth");
- 
+       
         //Set up second X axis label
         wrapper.append("h")
             .append("text")
