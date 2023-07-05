@@ -42,6 +42,8 @@
                 <div id="button2" class="btn btn-default" onclick="changeScene(2)">2</div>
                 <div id="button3" class="btn btn-default" onclick="changeScene(3)">3</div>
                 <div id="button4" class="btn btn-default" onclick="changeScene(4)">4</div>
+                <div id="button5" class="btn btn-default" onclick="changeScene(5)">5</div>
+                <div id="button6" class="btn btn-default" onclick="changeScene(6)">6</div>
                 </p>
             </div>
         </div>
@@ -66,7 +68,8 @@
         height = width * 2 / 3;
 
     var globalSceneNumber = 1;
-    var globalGraphNumber = 1;
+    var showGraph1 = true;
+    var showGraph2 = false;
     var showToolTip = false;
     var showAnnotation1 = true;
     var showAnnotation2 = false;
@@ -84,16 +87,17 @@
         d3.select("#button" + sceneNumber).attr("class", "btn btn-primary")
         init()
     }
-    
+
     function changeScene(sceneNumber) {
         globalSceneNumber = sceneNumber;
         if (globalSceneNumber === 1) {
             showToolTip = false;
+            showGraph1 = true;
+            showGraph2 = false;
             showAnnotation1 = true;
             showAnnotation2 = false;
             showAnnotation3 = false;
             showYearSelection = false;
-            createGraphs(1);
             regionSelect = ""
             showLegendSelection = false;
             d3.select("#scene-desc")
@@ -103,11 +107,12 @@
         }
         if (globalSceneNumber === 2) {
             showToolTip = false;
+            showGraph1 = true;
+            showGraph2 = false;
             showAnnotation1 = false;
             showAnnotation2 = true;
             showAnnotation3 = false;
             showYearSelection = false;
-            createGraphs(1);
             regionSelect = "Europe"
             showLegendSelection = false;
             d3.select("#scene-desc")
@@ -117,21 +122,9 @@
             resetScene(2)
         }
         if (globalSceneNumber === 3) {
-            showToolTip = false;
-            showAnnotation1 = false;
-            showAnnotation2 = false;
-            showAnnotation3 = true;
-            showYearSelection = false;
-            createGraphs(2);
-            regionSelect = ""
-            showLegendSelection = false;
-            d3.select("#scene-desc")
-                .html("<p>Looking at the chart, we can see a clear relationship between life expectancy and Health Expenditure per Capita." +
-                    "People tends to have a lower life expectance in countries with lower healthcare expenditure per capita vs country with higher rates.</p>")
-            resetScene(3);
-        }
-   if (globalSceneNumber === 4) {
             showToolTip = true;
+            showGraph1 = true;
+            showGraph2 = false;
             showAnnotation1 = false;
             showAnnotation2 = false;
             showAnnotation3 = false;
@@ -141,7 +134,53 @@
             d3.select("#scene-desc")
                 .html("<h2>Explore with your mouse!</h2><br><p>" +
                     "Move your mouse over the legend and the circles.</p>")
-            resetScene(4)
+            resetScene(3)
+        }
+        if (globalSceneNumber === 4) {
+            showToolTip = false;
+            showGraph1 = false;
+            showGraph2 = true;
+            showAnnotation1 = false;
+            showAnnotation2 = false;
+            showAnnotation3 = true;
+            showYearSelection = false;
+            regionSelect = ""
+            showLegendSelection = false;
+            d3.select("#scene-desc")
+                .html("<p>Looking at the chart, we can see a clear relationship between life expectancy and Health Expenditure per Capita." +
+                    "People tends to have a lower life expectance in countries with lower healthcare expenditure per capita vs country with higher rates.</p>")
+            resetScene(4);
+        }
+        if (globalSceneNumber === 5) {
+            showToolTip = false;
+            showGraph1 = false;
+            showGraph2 = true;
+            showAnnotation1 = false;
+            showAnnotation2 = true;
+            showAnnotation3 = false;
+            showYearSelection = false;
+            regionSelect = "Europe"
+            showLegendSelection = false;
+            d3.select("#scene-desc")
+                .html("<p>But there are still regional difference. For example Europe is different. " +
+                    "It seems all European countries tend to have very higher life expectancy, though their Health Expenditure per Capita vary much.</p>")
+            d3.select("#div_template").html("")
+            resetScene(5)
+        }
+   if (globalSceneNumber === 6) {
+            showToolTip = true;
+            showGraph1 = false;
+            showGraph2 = true;
+            showAnnotation1 = false;
+            showAnnotation2 = false;
+            showAnnotation3 = false;
+            showYearSelection = true;
+            regionSelect = ""
+            showLegendSelection = true;
+            d3.select("#scene-desc")
+                .html("<h2>Explore with your mouse!</h2><br><p>" +
+                    "Move your mouse over the legend and the circles.</p>")
+            resetScene(6)
         }
     }
     
@@ -162,94 +201,123 @@
             .style("border-width", "2px")
             .style("border-radius", "2px")
             .style("padding", "2px");
-        
-        function formatNumber(number) {
-            return number.toLocaleString();
-        }
 
-        function formatDecimal(number, decimalPlaces) {
-            return number.toFixed(decimalPlaces)
-        }
-          function createGraphs(graphNumber) {
-        globalGraphNumber = graphNumber;
-        if (globalGraphNumber === 1) {
+            if (showAnnotation1) {
+                var Annotation1_1 = d3.select("#div_template")
+                    .append("div")
+                    .attr("class", "annotation")
+                    .html("The <em>poorest</em> countries have <em>Lowest</em> life expectancy")
+                    .style("left", "100px")
+                    .style("top", "300px")
+    
+                var Annotation1_2 = d3.select("#div_template")
+                    .append("div")
+                    .attr("class", "annotation")
+                    .html("The <em>richest</em> countries have <em>Highest</em> life expectancy")
+                    .style("left", "750px")
+                    .style("top", "200px")
+            }
+    
+            if (showAnnotation2) {
+                var Annotation2 = d3.select("#div_template")
+                    .append("div")
+                    .attr("class", "annotation")
+                    .html("<em>European</em> countries have high life expectancy and GDP income")
+                    .style("left", "750px")
+                    .style("top", "250px")
+            }
+            
+            if (showAnnotation3) {
+                var Annotation3_1 = d3.select("#div_template")
+                    .append("div")
+                    .attr("class", "annotation")
+                    .html("The <em>lowest Healthcare Expenditure</em> countries have <em>Lowest</em> life expectancy")
+                    .style("left", "400px")
+                    .style("top", "300px")
+    
+                var Annotation3_2 = d3.select("#div_template")
+                    .append("div")
+                    .attr("class", "annotation")
+                    .html("The <em>highest Healthcare Expenditure</em> countries have <em>Highest</em> life expectancy")
+                    .style("left", "150px")
+                    .style("top", "50px")
+            }
+
+        if (showGraph1) {
+            var mouseover = function (d) {
+                Tooltip
+                    .style("opacity", 1)
+                d3.select(this)
+                    .style("stroke", "green")
+                    .style("opacity", 1)
+            };
+            var mousemove = function (d) {
+                Tooltip
+                    .html("<em>" + d.COUNTRY + "</em><br/> Population: " + d.POP_TOTAL +"<br>" +
+                        "Life Expectancy: " + d.LIFE_EXP_TOTAL + "<br/>" +
+                        "GDP/capita: " + d.GDP_CAPITA + "<br/>" +
+                        "Health Exp/capita: " + d.HEALTH_CAPITA)
+                    .style("left", (d3.event.pageX) + "px")
+                    .style("top", (d3.event.pageY - 220) + "px")
+            };
+    
+    
+            var mouseleave = function (d) {
+                Tooltip
+                    .style("opacity", 0)
+                d3.select(this)
+                    .style("stroke", "black")
+                    .style("opacity", normalOpacity)
+            };
+    
+            var highlight = function (d) {
+                if ("" === regionSelect) {
+                    return normalOpacity;
+                }
+                if (d === regionSelect) {
+                    return highlightOpacity;
+                } else {
+                    return 0.05;
+                }
+            }
             var regions = ["Africa", "Asia", "Europe", "North America", "Oceania", "South America"];
             var ys = d3.scaleLinear().domain([50, 90]).range([height, 0]);
             var xs = d3.scaleLog().domain([100, 140000]).range([0, width]);
             var rs = d3.scaleLog().domain([10000, 1500000000]).range([0, 15]);
             var cs = d3.scaleOrdinal().domain(regions)
                 .range(["gold", "blue", "green", "red", "brown", "slateblue"])
-            data = await d3.csv('https://ard8.github.io/data-final-5.csv');
+            data = await d3.csv('https://ard8.github.io/data-final-6.csv');
             var svg = d3.select("#div_template").append("svg")
                 .attr("width", (width + margin.left + margin.right))
                 .attr("height", (height + margin.top + margin.bottom));
+
             var wrapper = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-
             var circles = wrapper.selectAll("circle").data(data).enter().append("circle")
-            .attr("class", "countries")
-            .attr("cx", function (d) {
-                return xs(d.GDP_CAPITA);
-            })
-            .attr("cy", function (d) {
-                return ys(d.LIFE_EXP_TOTAL);
-            })
-            .attr("r", function (d) {
-                return rs(Number(d.POP_TOTAL));
-            })
-            .attr("fill", function (d) {
-                return cs(d.REGION);
-            })
-            .style("opacity", function (d) {
-                return highlight(d.REGION);
-            })
-var mouseover = function (d) {
-            Tooltip
-                .style("opacity", 1)
-            d3.select(this)
-                .style("stroke", "green")
-                .style("opacity", 1)
-        };
-        var mousemove = function (d) {
-            Tooltip
-                .html("<em>" + d.COUNTRY + "</em><br/> Population: " + d.POP_TOTAL +"<br>" +
-                    "Life Expectancy: " + d.LIFE_EXP_TOTAL + "<br/>" +
-                    "GDP/capita: " + d.GDP_CAPITA + "<br/>" +
-                    "Health Exp/capita: " + d.HEALTH_CAPITA)
-                .style("left", (d3.event.pageX) + "px")
-                .style("top", (d3.event.pageY - 220) + "px")
-        };
+                .attr("class", "countries")
+                .attr("cx", function (d) {
+                    return xs(d.GDP_CAPITA);
+                })
+                .attr("cy", function (d) {
+                    return ys(d.LIFE_EXP_TOTAL);
+                })
+                .attr("r", function (d) {
+                    return rs(d.POP_TOTAL);
+                })
+                .attr("fill", function (d) {
+                    return cs(d.REGION);
+                })
+                .style("opacity", function (d) {
+                    return highlight(d.REGION);
+                })
 
-
-        var mouseleave = function (d) {
-            Tooltip
-                .style("opacity", 0)
-            d3.select(this)
-                .style("stroke", "black")
-                .style("opacity", normalOpacity)
-        };
-
-        var highlight = function (d) {
-            if ("" === regionSelect) {
-                return normalOpacity;
-            }
-            if (d === regionSelect) {
-                return highlightOpacity;
-            } else {
-                return 0.05;
-            }
-        }
-                    if (showToolTip) {
-            circles.on("mouseover", mouseover)
-                .on("mousemove", mousemove)
-                .on("mouseleave", mouseleave)
-        }
-
-        wrapper.append("g").attr("transform", "translate(0,0)")
+            wrapper.append("g").attr("transform", "translate(0,0)")
             .call(d3.axisLeft(ys).ticks(5))
 
         wrapper.append("g").attr("transform", "translate(0," + height + ")")
           .call(d3.axisBottom(xs).tickValues([100, 1000, 10000, 100000, 1000000]).tickFormat(d3.format("~s")))
-             //Set up X axis label
+     
+        
+        //Set up X axis label
         wrapper.append("g")
             .append("text")
             .attr("class", "x title")
@@ -266,160 +334,216 @@ var mouseover = function (d) {
             .style("font-size", "12px")
             .attr("transform", "translate(18, 0) rotate(-90)")
             .text("Life Expectancy at Birth");
- 
+            if (showToolTip) {
+                circles.on("mouseover", mouseover)
+                    .on("mousemove", mousemove)
+                    .on("mouseleave", mouseleave)
+            }
+            //Legend
+            var legendMargin = {left: 5, top: 10, right: 5, bottom: 10},
+                legendWidth = 160,
+                legendHeight = 270;
+    
+            var svgLegend = d3.select("#legend").append("svg")
+                .attr("width", (legendWidth + legendMargin.left + legendMargin.right))
+                .attr("height", (legendHeight + legendMargin.top + legendMargin.bottom));
+         
+            var legendWrapper = svgLegend.append("g").attr("class", "legendWrapper")
+                .attr("transform", "translate(" + legendMargin.left + "," + legendMargin.top + ")");
+    
+            var rectSize = 16, //dimensions of the colored square
+                rowHeight = 22, //height of a row in the legend
+                maxWidth = 125; //widht of each row
+    
+            //Create container per rect/text pair
+            var legend = legendWrapper.selectAll('.legendSquare')
+                .data(cs.range())
+                .enter().append('g')
+                .attr('class', 'legendSquare')
+                .attr("transform", function (d, i) {
+                    return "translate(" + 0 + "," + (i * rowHeight) + ")";
+                })
+    
+          
+            //Append small squares to Legend
+            legend.append('rect')
+                .attr('width', rectSize)
+                .attr('height', rectSize)
+                .style('fill', function (d) {
+                    return d;
+                });
+            
+            //Append text to Legend
+            legend.append('text')
+                .attr('transform', 'translate(' + 25 + ',' + (rectSize / 2) + ')')
+                .attr("class", "legendText")
+                .style("font-size", "11px")
+                .attr("dy", ".35em")
+                .text(function (d, i) {
+                    return cs.domain()[i];
+                });
+    
+            // show legend
+            if (showLegendSelection) {
+                legend.style("cursor", "pointer")
+                    .on("mouseover", selectLegend(0.02))
+                    .on("mouseout", selectLegend(normalOpacity))
+            }
+    
         }
-        if (globalGraphNumber === 2) {
-            var circles_health = wrapper.selectAll("circle").data(data).enter().append("circle")
-            .attr("class", "countries")
-            .attr("cx", function (d) {
-                return xs(d.HEALTH_CAPITA);
-            })
-            .attr("cy", function (d) {
-                return ys(d.LIFE_EXP_TOTAL);
-            })
-            .attr("r", function (d) {
-                return rs(Number(d.POP_TOTAL));
-            })
-            .attr("fill", function (d) {
-                return cs(d.REGION);
-            })
-            .style("opacity", function (d) {
-                return highlight(d.REGION);
-            })
+
+        if (showGraph2) {
+            var mouseover = function (d) {
+                Tooltip
+                    .style("opacity", 1)
+                d3.select(this)
+                    .style("stroke", "green")
+                    .style("opacity", 1)
+            };
+            var mousemove = function (d) {
+                Tooltip
+                    .html("<em>" + d.COUNTRY + "</em><br/> Population: " + d.POP_TOTAL +"<br>" +
+                        "Life Expectancy: " + d.LIFE_EXP_TOTAL + "<br/>" +
+                        "GDP/capita: " + d.GDP_CAPITA + "<br/>" +
+                        "Health Exp/capita: " + d.HEALTH_CAPITA)
+                    .style("left", (d3.event.pageX) + "px")
+                    .style("top", (d3.event.pageY - 220) + "px")
+            };
+    
+    
+            var mouseleave = function (d) {
+                Tooltip
+                    .style("opacity", 0)
+                d3.select(this)
+                    .style("stroke", "black")
+                    .style("opacity", normalOpacity)
+            };
+    
+            var highlight = function (d) {
+                if ("" === regionSelect) {
+                    return normalOpacity;
+                }
+                if (d === regionSelect) {
+                    return highlightOpacity;
+                } else {
+                    return 0.05;
+                }
+            }
+            var regions = ["Africa", "Asia", "Europe", "North America", "Oceania", "South America"];
+            var ys = d3.scaleLinear().domain([50, 90]).range([height, 0]);
+            var xs = d3.scaleLog().domain([30, 140000]).range([0, width]);
+            var rs = d3.scaleLog().domain([10000, 1500000000]).range([0, 15]);
+            var cs = d3.scaleOrdinal().domain(regions)
+                .range(["gold", "blue", "green", "red", "brown", "slateblue"])
+            data = await d3.csv('https://ard8.github.io/data-final-6.csv');
+            var svg = d3.select("#div_template").append("svg")
+                .attr("width", (width + margin.left + margin.right))
+                .attr("height", (height + margin.top + margin.bottom));
+    
+            var wrapper = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+    
+    
+            var circles = wrapper.selectAll("circle").data(data).enter().append("circle")
+                .attr("class", "countries")
+                .attr("cx", function (d) {
+                    return xs(d.HEALTH_CAPITA);
+                })
+                .attr("cy", function (d) {
+                    return ys(d.LIFE_EXP_TOTAL);
+                })
+                .attr("r", function (d) {
+                    return rs(d.POP_TOTAL);
+                })
+                .attr("fill", function (d) {
+                    return cs(d.REGION);
+                })
+                .style("opacity", function (d) {
+                    return highlight(d.REGION);
+                })
+
+                wrapper.append("g").attr("transform", "translate(0,0)")
+                .call(d3.axisLeft(ys).ticks(5))
+    
+            wrapper.append("g").attr("transform", "translate(0," + height + ")")
+              .call(d3.axisBottom(xs).tickValues([100, 1000, 10000, 100000]).tickFormat(d3.format("~s")))
+         
+            
+            //Set up X axis label
+            wrapper.append("g")
+                .append("text")
+                .attr("class", "x title")
+                .attr("text-anchor", "end")
+                .style("font-size", "12px")
+                .attr("transform", "translate(" + width + "," + (height - 10) + ")")
+                .text("Health Expenditure per capita [USD] - Logarithmic scale");
+    
+            // Set up y axis label
+            wrapper.append("g")
+                .append("text")
+                .attr("class", "y title")
+                .attr("text-anchor", "end")
+                .style("font-size", "12px")
+                .attr("transform", "translate(18, 0) rotate(-90)")
+                .text("Life Expectancy at Birth");
+
+                if (showToolTip) {
+                    circles.on("mouseover", mouseover)
+                        .on("mousemove", mousemove)
+                        .on("mouseleave", mouseleave)
+                }
+                //Legend
+                var legendMargin = {left: 5, top: 10, right: 5, bottom: 10},
+                    legendWidth = 160,
+                    legendHeight = 270;
+        
+                var svgLegend = d3.select("#legend").append("svg")
+                    .attr("width", (legendWidth + legendMargin.left + legendMargin.right))
+                    .attr("height", (legendHeight + legendMargin.top + legendMargin.bottom));
+             
+                var legendWrapper = svgLegend.append("g").attr("class", "legendWrapper")
+                    .attr("transform", "translate(" + legendMargin.left + "," + legendMargin.top + ")");
+        
+                var rectSize = 16, //dimensions of the colored square
+                    rowHeight = 22, //height of a row in the legend
+                    maxWidth = 125; //widht of each row
+        
+                //Create container per rect/text pair
+                var legend = legendWrapper.selectAll('.legendSquare')
+                    .data(cs.range())
+                    .enter().append('g')
+                    .attr('class', 'legendSquare')
+                    .attr("transform", function (d, i) {
+                        return "translate(" + 0 + "," + (i * rowHeight) + ")";
+                    })
+        
+              
+                //Append small squares to Legend
+                legend.append('rect')
+                    .attr('width', rectSize)
+                    .attr('height', rectSize)
+                    .style('fill', function (d) {
+                        return d;
+                    });
+                
+                //Append text to Legend
+                legend.append('text')
+                    .attr('transform', 'translate(' + 25 + ',' + (rectSize / 2) + ')')
+                    .attr("class", "legendText")
+                    .style("font-size", "11px")
+                    .attr("dy", ".35em")
+                    .text(function (d, i) {
+                        return cs.domain()[i];
+                    });
+        
+                // show legend
+                if (showLegendSelection) {
+                    legend.style("cursor", "pointer")
+                        .on("mouseover", selectLegend(0.02))
+                        .on("mouseout", selectLegend(normalOpacity))
+                }
+            
         }
-        if (showAnnotation1) {
-            var Annotation1_1 = d3.select("#div_template")
-                .append("div")
-                .attr("class", "annotation")
-                .html("The <em>poorest</em> countries have <em>Lowest</em> life expectancy")
-                .style("left", "100px")
-                .style("top", "300px")
-
-            var Annotation1_2 = d3.select("#div_template")
-                .append("div")
-                .attr("class", "annotation")
-                .html("The <em>richest</em> countries have <em>Highest</em> life expectancy")
-                .style("left", "750px")
-                .style("top", "200px")
-        }
-
-        if (showAnnotation2) {
-            var Annotation2 = d3.select("#div_template")
-                .append("div")
-                .attr("class", "annotation")
-                .html("<em>European</em> countries have high life expectancy and GDP income")
-                .style("left", "750px")
-                .style("top", "250px")
-        }
-        
-        if (showAnnotation3) {
-            var Annotation3_1 = d3.select("#div_template")
-                .append("div")
-                .attr("class", "annotation")
-                .html("The <em>lowest Healthcare Expenditure</em> countries have <em>Lowest</em> life expectancy")
-                .style("left", "100px")
-                .style("top", "300px")
-
-            var Annotation3_2 = d3.select("#div_template")
-                .append("div")
-                .attr("class", "annotation")
-                .html("The <em>highest Healthcare Expenditure</em> countries have <em>Highest</em> life expectancy")
-                .style("left", "750px")
-                .style("top", "200px")
-        }
-        
-        
-        
-
-        
-
-     
-        wrapper.append("h").attr("transform", "translate(0,0)")
-            .call(d3.axisLeft(ys).ticks(5))
-
-        wrapper.append("h").attr("transform", "translate(0," + height + ")")
-          .call(d3.axisBottom(xs).tickValues([100, 1000, 10000]).tickFormat(d3.format("~s")))
-
-       
-        //Set up second X axis label
-        wrapper.append("h")
-            .append("text")
-            .attr("class", "x title")
-            .attr("text-anchor", "end")
-            .style("font-size", "12px")
-            .attr("transform", "translate(" + width + "," + (height - 10) + ")")
-            .text("Health Expenditure per capita [USD] - Logarithmic scale");
-
-        // Set up second y axis label
-        wrapper.append("h")
-            .append("text")
-            .attr("class", "y title")
-            .attr("text-anchor", "end")
-            .style("font-size", "12px")
-            .attr("transform", "translate(18, 0) rotate(-90)")
-            .text("Life Expectancy at Birth");
-       
-        //Legend
-        var legendMargin = {left: 5, top: 10, right: 5, bottom: 10},
-            legendWidth = 160,
-            legendHeight = 270;
-
-        var svgLegend = d3.select("#legend").append("svg")
-            .attr("width", (legendWidth + legendMargin.left + legendMargin.right))
-            .attr("height", (legendHeight + legendMargin.top + legendMargin.bottom));
-
-        var legendWrapperhealth = svgLegend.append("h").attr("class", "legendWrapperhealth")
-            .attr("transform", "translate(" + legendMargin.left + "," + legendMargin.top + ")");
-        
-        var legendWrapper = svgLegend.append("g").attr("class", "legendWrapper")
-            .attr("transform", "translate(" + legendMargin.left + "," + legendMargin.top + ")");
-
-        var rectSize = 16, //dimensions of the colored square
-            rowHeight = 22, //height of a row in the legend
-            maxWidth = 125; //widht of each row
-
-        //Create container per rect/text pair
-        var legend = legendWrapper.selectAll('.legendSquare')
-            .data(cs.range())
-            .enter().append('g')
-            .attr('class', 'legendSquare')
-            .attr("transform", function (d, i) {
-                return "translate(" + 0 + "," + (i * rowHeight) + ")";
-            })
-
-           //Create container per rect/text pair health
-        var legendhealth = legendWrapperhealth.selectAll('.legendSquare')
-            .data(cs.range())
-            .enter().append('g')
-            .attr('class', 'legendSquare')
-            .attr("transform", function (d, i) {
-                return "translate(" + 0 + "," + (i * rowHeight) + ")";
-            })
-        
-        //Append small squares to Legend
-        legend.append('rect')
-            .attr('width', rectSize)
-            .attr('height', rectSize)
-            .style('fill', function (d) {
-                return d;
-            });
-        
-        //Append text to Legend
-        legend.append('text')
-            .attr('transform', 'translate(' + 25 + ',' + (rectSize / 2) + ')')
-            .attr("class", "legendText")
-            .style("font-size", "11px")
-            .attr("dy", ".35em")
-            .text(function (d, i) {
-                return cs.domain()[i];
-            });
-
-        // show legend
-        if (showLegendSelection) {
-            legend.style("cursor", "pointer")
-                .on("mouseover", selectLegend(0.02))
-                .on("mouseout", selectLegend(normalOpacity))
-        }
+                
 
         //Decrease opacity of non selected circles when hovering in the legend
         function selectLegend(opacity) {
@@ -441,6 +565,7 @@ var mouseover = function (d) {
                     .style("opacity", highlightOpacity);
             };
         }
+
 
     }
 </script>
