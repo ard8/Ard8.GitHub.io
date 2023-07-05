@@ -97,6 +97,7 @@
             showAnnotation1 = true;
             showAnnotation2 = false;
             showAnnotation3 = false;
+            showAnnotation4 = false;
             showYearSelection = false;
             regionSelect = ""
             showLegendSelection = false;
@@ -112,6 +113,7 @@
             showAnnotation1 = false;
             showAnnotation2 = true;
             showAnnotation3 = false;
+            showAnnotation4 = false;
             showYearSelection = false;
             regionSelect = "Europe"
             showLegendSelection = false;
@@ -128,6 +130,7 @@
             showAnnotation1 = false;
             showAnnotation2 = false;
             showAnnotation3 = false;
+            showAnnotation4 = false;
             showYearSelection = true;
             regionSelect = ""
             showLegendSelection = true;
@@ -143,6 +146,7 @@
             showAnnotation1 = false;
             showAnnotation2 = false;
             showAnnotation3 = true;
+            showAnnotation4 = false;
             showYearSelection = false;
             regionSelect = ""
             showLegendSelection = false;
@@ -156,8 +160,9 @@
             showGraph1 = false;
             showGraph2 = true;
             showAnnotation1 = false;
-            showAnnotation2 = true;
+            showAnnotation2 = false;
             showAnnotation3 = false;
+            showAnnotation4 = true;
             showYearSelection = false;
             regionSelect = "Europe"
             showLegendSelection = false;
@@ -242,7 +247,14 @@
                     .style("left", "150px")
                     .style("top", "50px")
             }
-
+            if (showAnnotation4) {
+                var Annotation4 = d3.select("#div_template")
+                    .append("div")
+                    .attr("class", "annotation")
+                    .html("<em>European</em> countries have high life expectancy and Healthcare expenditure per capita")
+                    .style("left", "750px")
+                    .style("top", "250px")
+            }
         if (showGraph1) {
             var mouseover = function (d) {
                 Tooltip
